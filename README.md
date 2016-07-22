@@ -204,8 +204,7 @@ Execute the `create_database.sh` script in the bash. It does not take any
 arguments.
 
 ### Output
-The empty `nasa` database is created.
-<br><br><br>
+The empty `nasa` database is created.<br><br><br>
 
 ## 2) Create Group Roles
 
