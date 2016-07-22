@@ -205,7 +205,7 @@ arguments.
 
 ### Output
 The empty `nasa` database is created.
-<br><br>
+<br><br><br>
 
 ## 2) Create Group Roles
 
