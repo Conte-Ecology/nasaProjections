@@ -77,6 +77,7 @@ same name as the model scenario folder. This name will also be used for the
 table name if uploaded to a database.
 
 The scripts in this section are stored in the `create_records` sub-directory.
+<br><br>
 
 
 ## 1) Create spatial grid
@@ -101,6 +102,7 @@ The entire script is then executed in R.
 ### Output 
 The output table is named `gridCentroids.csv` and has two columns for "lat"" and 
 "lon" coordinates. Unique IDs are assigned later.
+<br><br>
 
 
 ## 2) Establish spatial relationships
@@ -127,6 +129,7 @@ The entire script is then executed in Arc Python.
 The `catchmentsGridTable.dbf` is ouput to the specified "outputDirectory". This table 
 has columns for the unique IDs for the catchments ("FEATUREID") and grid cells ("cellID") 
 along with the "lat" and "lon" of the grid cell centroid. 
+<br><br>
 
 
 ## 3) Convert Table Format
@@ -148,6 +151,7 @@ The entire script is then executed in R.
 ### Output
 The `catchmentsGridTable.csv` is ouput to the same directory as the DBF version 
 of the same table. The columns are the same as the DBF table.
+<br><br>
 
 
 ## 4) Aggregate Records
@@ -194,6 +198,7 @@ for reference as ________________.
 The scripts in this section are stored in the `create_database` sub-directory.
 <br><br>
 
+
 ## 1) Create Database
 
 ### Description
@@ -204,7 +209,9 @@ Execute the `create_database.sh` script in the bash. It does not take any
 arguments.
 
 ### Output
-The empty `nasa` database is created.<br><br><br>
+The empty `nasa` database is created.
+<br><br>
+
 
 ## 2) Create Group Roles
 
@@ -220,6 +227,7 @@ the same directory to setup the roles.
 ### Output
 The "nasa_admin", "nasa_read", and "nasa_write" roles are created for the 
 database.
+<br><br>
 
 
 ## 3) Grant Roles to Users
@@ -234,6 +242,7 @@ script.
 
 ### Output
 Specified users are assigned to the group roles.
+<br><br>
 
 
 ## 4) Upload Climate Tables
@@ -254,6 +263,7 @@ One table for each of the CSV files is created. The table names are the same
 as the the CSV file name. Since some of the names contain a hyphen, the tables 
 will need to be referred to with double quotation marks in queries 
 (e.g. `SELECT * FROM "ACCESS1-0";`)
+<br><br>
 
 
 ## 5) Create Cross Grid Table
@@ -269,6 +279,8 @@ database name and the filepath to the cross grid CSV file as inputs.
 
 ### Output
 The `cross_grid` table is created in the "public" schema. 
+<br><br>
+
 
 ## 6) Query examples
 
@@ -279,6 +291,7 @@ provide users with a script to work with for pulling records.
 ### Steps to execute
 
 ### Output
+<br><br>
 
 
 # Assumptions & Notes
@@ -291,6 +304,7 @@ ommited. This is accomplished by identifying the number of days in known
 leap years and then altering the calendar if it is a day short.
 
 - Some models only go up to 2099.
+<br><br>
 
 
 # Contact Info
