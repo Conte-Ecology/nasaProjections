@@ -1,5 +1,5 @@
-Climate Projections
-===================
+NASA Climate Projections
+========================
 
 In Progress...
 
@@ -22,9 +22,9 @@ described in the previous section. The CSV is then loaded into the PostgreSQL
 database as a new table. Each table has 5 columns: 
 - cellid - The unique climate grid cell ID
 - date - The date associated with climate record
-- pr - Daily precipition in mm
-- tasmax - Maximum daily temperature in degrees C
-- tasmin - Minimum daily temperature in degrees C
+- pr - Daily precipition (mm)
+- tasmax - Maximum daily temperature (degrees C)
+- tasmin - Minimum daily temperature (degrees C)
 
 | cellid |   date	  |     pr   |  tasmax | tasmin  |
 |:------:|:--------:|:--------:|:-------:|:-------:|
@@ -129,7 +129,7 @@ has columns for the unique IDs for the catchments ("FEATUREID") and grid cells (
 along with the "lat" and "lon" of the grid cell centroid. 
 
 
-### 3) Convert Table Format
+## 3) Convert Table Format
 
 ### Description
 When directly outputting a CSV from ArcGIS, column formatting is problematic 
@@ -192,7 +192,7 @@ the `cross_grid` table in the "public" schema. A sample query is made available
 for reference as ________________.
 
 The scripts in this section are stored in the `create_database` sub-directory.
-
+<br><br>
 
 ## 1) Create Database
 
@@ -205,7 +205,7 @@ arguments.
 
 ### Output
 The empty `nasa` database is created.
-
+<br><br>
 
 ## 2) Create Group Roles
 
