@@ -15,8 +15,8 @@ projected period.
 Climate NetCDF files are aggregated by model/scenario, creating a single CSV 
 containing all climate variables over the entire time series. Currently there 
 are 21 total climate/scenario combinations processed. Each CSV is then loaded 
-into the PostgreSQL database as a new table named for the model. Each table 
-has 5 columns: 
+into the "nasa" PostgreSQL database on osensei as a new table named for the 
+model. Each table has 5 columns: 
 - cellid - The unique climate grid cell ID
 - date - The date associated with climate record
 - pr - Daily precipition (mm)
