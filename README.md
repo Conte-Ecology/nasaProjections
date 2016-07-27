@@ -4,7 +4,7 @@ NASA Climate Projections
 # Description
 This repository houses the scripts used to process the climate projection data 
 on a 25 sq km resolution. The daily time series data for 3 different climate 
-variables (precipitation, minimum temperature, maximum temperature) are provided 
+variables (precipitation, minimum temperature, maximum temperature) exist 
 in the form of NetCDF files. A single file contains the daily data for one 
 climate variable over one year for one model/emissions scenario combination. 
 Each time series is associated with the lat/lon coordinates of the centroid of 
@@ -13,10 +13,10 @@ period of the climate model while the 2006 - 2100 time period represents the
 projected period. 
 
 Climate NetCDF files are aggregated by model/scenario, creating a single CSV 
-containing all climate variables over the entire time series. Users of this 
-data should be aware of the distinction between "historical" and projected data 
-described in the previous section. The CSV is then loaded into the PostgreSQL 
-database as a new table. Each table has 5 columns: 
+containing all climate variables over the entire time series. Currently there 
+are 21 total climate/scenario combinations processed. Each CSV is then loaded 
+into the PostgreSQL database as a new table named for the model. Each table 
+has 5 columns: 
 - cellid - The unique climate grid cell ID
 - date - The date associated with climate record
 - pr - Daily precipition (mm)
@@ -37,10 +37,10 @@ A separate spatial relationship table is created to match the catchment
 FEATUREIDs from the [NHDHRDV2](http://conte-ecology.github.io/shedsGisData/). 
 Catchments are paired with the "cellid" of the grid cell that their centroid 
 falls within. The "cross_grid" table has 4 columns: 
-featureid - The unique catchment ID
-cellid - The unique climate grid cell ID
-lat - The latitude of the climate grid cell centroid
-lon - The longitude of the climate grid cell centroid
+- featureid - The unique catchment ID
+- cellid - The unique climate grid cell ID
+- lat - The latitude of the climate grid cell centroid
+- lon - The longitude of the climate grid cell centroid
 
 | featureid |   lon   |   lat  | cellid |
 |:---------:|:-------:|:------:|:-----: |
@@ -53,25 +53,28 @@ lon - The longitude of the climate grid cell centroid
 Table 2 - Cross grid table example
 
 The cross_grid table may be used with the individual climate time series tables 
-to query the records assigned to specific catchments.
+to query the records assigned to specific catchments (see the "Sample Query" 
+section at the bottom of this page). Users of the data should be aware of the 
+distinction between "historical" and projected data described above.
 
 
 # Data Source
 The climate data originates from the 
 [NASA Earth Exchange Global Daily Downscaled Climate Projections](https://nex.nasa.gov/nex/projects/1356/#) 
 dataset. The raw projections have been downscaled and clipped to the NHDHRDV2 
-study area by Ambarish Karmalkar at UMass Amherst (citation. department?). The 
-subset of the orignal climate data serves as input to the 
+study area by Ambarish Karmalkar in the Northeast Climate Science Center at 
+UMass Amherst. The subset of the orignal climate data serves as input to the 
+processing steps herein.
 
 
 # Create Climate Tables
 The processing scripts are structured to handle a number of models with the 
-same spatial coverage. The netcdf files for each model scenario are stored in 
-a single directory. All model scenario folders are stored in the same parent 
-directory. This storage format allows the script to loop through each model 
-scenario separately and access all of its files. The output CSV is given the 
-same name as the model scenario folder. This name will also be used for the 
-table name if uploaded to a database.
+same spatial coverage. The NetCDF files for each model/scenario are stored in 
+a single directory. All model/scenario folders are stored in the same parent 
+directory. This storage format allows the script to loop through each folder 
+separately and access all of its NetCDF files. The output CSV is given the 
+same name as the model/scenario folder, which is consistent with the table 
+name in the database.
 
 The scripts in this section are stored in the `create_records` sub-directory.
 <br><br>
@@ -94,10 +97,10 @@ To run, open the `extractGrid.R` script and set the following variables in the
 - netcdfPath - the file path to the sample NetCDF file defining the climate grid
 - outputDirectory - the directory where the spatial grid table will be written
 
-The entire script is then executed in R.
+The script is then executed in R.
 
 ### Output 
-The output table is named `gridCentroids.csv` and has two columns for "lat"" and 
+The output table is named `gridCentroids.csv` and has two columns for "lat" and 
 "lon" coordinates. Unique IDs are assigned later.
 <br><br>
 
@@ -116,11 +119,11 @@ climate grid "cellID".
 To run, open the `spatialReleationships.py` script and set the following variables 
 in the "Specify inputs" section. 
 
-- catchments - the spatial catchments layer (shapefile or geodatabase feature)
-- gridPointsTable - the spatial grid table created in the previous step
-- outputDirectory - the directory where the relationship table will be written
+- catchments - the filepath to the spatial catchments layer (shapefile or geodatabase feature)
+- gridPointsTable - the filepath to the spatial grid table created in the previous step
+- outputDirectory - the path to the directory where the relationship table will be written
 
-The entire script is then executed in Arc Python. 
+The script is then executed in Arc Python. 
 
 ### Output
 The `catchmentsGridTable.dbf` is ouput to the specified "outputDirectory". This table 
@@ -140,10 +143,10 @@ to reformat the table from DBF to CSV for upload to the database.
 To run, open the `spatialGridFormat.R` script and set the following variables 
 in the "Specify inputs" section.
 
-- baseDirectory - the directory containing the `catchmentsGridTable.dbf` output 
+- baseDirectory - the path to the directory containing the `catchmentsGridTable.dbf` output 
 by the previous script
 
-The entire script is then executed in R. 
+The script is then executed in R. 
 
 ### Output
 The `catchmentsGridTable.csv` is ouput to the same directory as the DBF version 
@@ -176,10 +179,10 @@ which climate grid cell each catchment is falls into.
 - outputDirectory - The directory where the CSV files of aggregated climate 
 records for each model will be written.
 
-The entire script is then executed in R. 
+The script is then executed in R. 
 
 ### Output
-One CSV file for each model scenario ID (taken from the folder names) will be 
+One CSV file for each model/scenario ID (taken from the folder names) will be 
 created. Table 1 describes the format of each of the files. 
 
 
@@ -190,9 +193,11 @@ model/scenario there is one table in the "data" schema with an identical name.
 The time series in each of these tables are associated with a grid cell defined 
 by the "cellid" column. The cellids are matched to the catchment featureids in 
 the `cross_grid` table in the "public" schema. A sample query is made available 
-for reference as ________________.
+for reference in step 6 of this section.
 
-The scripts in this section are stored in the `create_database` sub-directory.
+The scripts in this section are stored in the `create_database` sub-directory, 
+with the exception of the `sample_query.sql` script that is maintained in the 
+`scripts/` parent driectory.
 <br><br>
 
 
@@ -218,8 +223,8 @@ modeled after those in the `sheds` database on felek.
 
 ### Steps to execute
 Execute the `create_all_roles.sh` script in the bash with the only input being 
-the name of the database. The shell script calls the individual SQL scripts in 
-the same directory to setup the roles.
+the name of the database (e.g. "nasa"). The shell script calls the individual 
+SQL scripts in the same directory to setup the roles.
 
 ### Output
 The "nasa_admin", "nasa_read", and "nasa_write" roles are created for the 
