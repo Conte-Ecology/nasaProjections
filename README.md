@@ -1,9 +1,6 @@
 NASA Climate Projections
 ========================
 
-In Progress...
-
-
 # Description
 This repository houses the scripts used to process the climate projection data 
 on a 25 sq km resolution. The daily time series data for 3 different climate 
@@ -279,20 +276,32 @@ database name and the filepath to the cross grid CSV file as inputs.
 
 ### Output
 The `cross_grid` table is created in the "public" schema. 
-<br><br>
 
 
-## 6) Query examples
+## 6) Sample Query
 
 ### Description
-Some example queries are written in SQL to test the time to return records and 
-provide users with a script to work with for pulling records.
+A sample queries is written in SQL to test the time to return records and 
+provide users with a script to work with for pulling records. Estimates of 
+current times to return climate records for the entire time period are listed 
+in Table 3.
+
+| Number of FeatureIDs |   Return Time    |
+|:--------------------:|:----------------:|
+|  10                  | 2-5 seconds	    |
+|  100                 | 10 - 15 seconds	|
+|  1000                | 1.5 - 4 minutes	|
+
+Table 3 - Climate table example
 
 ### Steps to execute
+Execute the `sample_query.sql` script in postgres.
 
 ### Output
+The "select_records" table is a time series of climate records for the 
+specified featureids. This table is the same as Table 1 with one new row 
+indicating featureid.
 <br><br>
-
 
 # Assumptions & Notes
 
@@ -306,8 +315,6 @@ leap years and then altering the calendar if it is a day short.
 - Some models only go up to 2099.
 <br><br>
 
-
 # Contact Info
 Kyle O'Neil  
 koneil@usgs.gov  
-

@@ -88,7 +88,7 @@ select featureid
 
 with s as (
   select * 
-  from gfdl_esm2m
+  from "CCSM4"
   where cellid in (
     select cellid 
 	from cross_grid
@@ -98,7 +98,7 @@ with s as (
 	)
   )
 )
-select s.*, c.featureid into test4
+select s.*, c.featureid into test
 from s
 left join (
   select cellid, featureid  
@@ -108,9 +108,9 @@ left join (
 	  from feature_list)
   ) c on s.cellid = c.cellid;
 	
--- Test 10 - Time: 5047 ms (5 seconds)
--- Test 100 - Time: 8342 ms (8 seconds)  
--- Test 1000 - Time: 29172 ms (29 seconds)  
+-- Test 10 - Time: 1926 ms (2-5 seconds)
+-- Test 100 - Time: 12523 ms (12 seconds)  
+-- Test 1000 - Time: 91637 ms (1.5-4 minutes)  
  
 select count(*) from test4;
 select * from test4 limit 10;
