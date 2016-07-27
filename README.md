@@ -270,10 +270,10 @@ will need to be referred to with double quotation marks in queries
 
 ## 5) Create Cross Grid Table
 
-# Description
+### Description
 The cross grid table is created to pair the climate time series with catchment 
 featureids based on their spatial location in relation to the climate grid. The 
-`catchmentsGridTable.csv` table created in the pervious section is uploaded.
+`catchmentsGridTable.csv` table created in the previous section is uploaded.
 
 ### Steps to execute
 Execute the `create_cross_grid_table.sh` in the shell. The script takes the 
@@ -286,18 +286,18 @@ The `cross_grid` table is created in the "public" schema.
 ## 6) Sample Query
 
 ### Description
-A sample queries is written in SQL to test the time to return records and 
+A sample query is written in SQL to test the time to return records and 
 provide users with a script to work with for pulling records. Estimates of 
 current times to return climate records for the entire time period are listed 
 in Table 3.
 
-| Number of FeatureIDs |   Return Time    |
+| Number of FeatureIDs |   Time To Run    |
 |:--------------------:|:----------------:|
 |  10                  | 2-5 seconds	    |
 |  100                 | 10 - 15 seconds	|
 |  1000                | 1.5 - 4 minutes	|
 
-Table 3 - Climate table example
+Table 3 - Query Run Times
 
 ### Steps to execute
 Execute the `sample_query.sql` script in postgres.
